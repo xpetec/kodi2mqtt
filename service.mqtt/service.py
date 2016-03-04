@@ -134,6 +134,13 @@ class MQTTMonitor(xbmc.Monitor):
         load_settings()
         startmqtt()
 
+    def onScreensaverActivated(self):
+        publish("screensaver",1,"")
+
+    def onScreensaverDeactivated(self):
+        publish("screensaver",0,"")
+
+
 class MQTTPlayer(xbmc.Player):
 
     def onPlayBackStarted(self):
