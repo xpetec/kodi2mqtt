@@ -5,6 +5,7 @@ import xbmc,xbmcaddon
 import json
 import threading
 import time
+import os
 import socket
 from lib import client as mqtt
 
@@ -205,13 +206,21 @@ def processplaybackstate(data):
     elif data=="previous":
         player.playprevious()
 
+def processcecstate(data):
+	if data=="1" or data=="activate":
+		#Stupid workaround to wake TV
+		mqttlogging("CEC Activate")
+		os.system('kodi-send --action=""')
+
 def processcommand(topic,data):
     if topic=="notify":
         processnotify(data)
     elif topic=="play":
         processplay(data)
     elif topic=="playbackstate":
-        processplaybackstate(data)
+        processcecstate(data)
+    elif topic=="cecstate":
+        processcecstate(data)
     else:
         mqttlogging("MQTT: Unknown command "+topic)
 
