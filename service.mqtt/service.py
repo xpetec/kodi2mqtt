@@ -196,7 +196,7 @@ def processplaybackstate(data):
     if data=="0" or data=="stop":
         player.stop()
     elif data=="1" or data=="resume":
-        if not player.isPlaying():
+        if player.isPlaying():
             player.pause()
     elif data=="2" or data=="pause":
         if player.isPlaying():
@@ -218,7 +218,7 @@ def processcommand(topic,data):
     elif topic=="play":
         processplay(data)
     elif topic=="playbackstate":
-        processcecstate(data)
+        processplaybackstate(data)
     elif topic=="cecstate":
         processcecstate(data)
     else:
