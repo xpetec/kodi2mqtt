@@ -46,6 +46,11 @@ def sendrpc(method,params):
     mqttlogging("MQTT: JSON-RPC call "+method+" returned "+res)
     return json.loads(res)
 
+def setvol(data):
+    params=json.loads('{"volume":' + str(data) + '}')
+    sendrpc("Application.SetVolume",params)
+    #res=xbmc.executebuiltin("XBMC.SetVolume("+data+")")
+    xbmc.log(data)
 #
 # Publishes a MQTT message. The topic is built from the configured
 # topic prefix and the suffix. The message itself is JSON encoded,
@@ -186,6 +191,15 @@ def processplay(data):
     except ValueError:
         player.play(data)
 
+def processvolume(data):
+    try:
+        vol = int(data)
+        setvol(vol)
+    except ValueError:
+        params=json.loads(data)
+        sendrpc("Application.SetVolume",params)
+
+
 def processplaybackstate(data):
     global playbackstate
     if data=="0" or data=="stop":
@@ -223,6 +237,8 @@ def processcommand(topic,data):
         processplaybackstate(data)
     elif topic=="api":
 		processsendcomand(data)
+    elif topic=="volume":
+        processvolume(data)
     else:
         mqttlogging("MQTT: Unknown command "+topic)
 
