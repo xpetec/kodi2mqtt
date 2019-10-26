@@ -1,3 +1,6 @@
+v0.14 -2019-10-26 - devtown
+  - added set volume
+
 v0.13 - 2016-05-01 - owagner
   - change logic for command/playbackstate:
      - resume/play/1 will now properly resume when pausing, and attempt to
