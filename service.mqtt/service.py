@@ -138,6 +138,9 @@ class MQTTMonitor(xbmc.Monitor):
 
 class MQTTPlayer(xbmc.Player):
 
+    def onAVStarted(self):
+        setplaystate(1, "started")
+
     def onPlayBackStarted(self):
         setplaystate(1,"started")
 
