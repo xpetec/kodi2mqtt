@@ -208,6 +208,9 @@ def processplaybackstate(data):
         player.playnext()
     elif data=="previous":
         player.playprevious()
+    elif data=="playcurrent":
+        path = xbmc.getInfoLabel('ListItem.FileNameAndPath')
+        sendrpc("Player.Open", {"item": {"file": path}})
 
 def processprogress(data):
     hours, minutes, seconds = [int(i) for i in data.split(":")]
