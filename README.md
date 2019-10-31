@@ -72,6 +72,7 @@ The addon listens to the following topics (prefixed with the configured topic pr
   - "toggle" to toggle between play and pause
   - "next" to play the next track
   - "previous" to play the previous track
+  - "playcurrent" to play the currently selected track
 
 
 See also
