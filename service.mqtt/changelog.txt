@@ -1,5 +1,8 @@
-v0.14 -2019-10-26 - devtown
+v0.14 -2019-10-31 - devtown/eschava
   - added set volume
+  - change playback position
+  - play currently selected file
+  - bugfixes
 
 v0.13 - 2016-05-01 - owagner
   - change logic for command/playbackstate:
