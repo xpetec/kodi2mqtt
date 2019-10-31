@@ -206,6 +206,11 @@ def processplaybackstate(data):
     elif data=="previous":
         player.playprevious()
 
+def processprogress(data):
+    hours, minutes, seconds = [int(i) for i in data.split(":")]
+    time = hours * 3600 + minutes * 60 + seconds
+    player.seekTime(time)
+
 def processcommand(topic,data):
     if topic=="notify":
         processnotify(data)
@@ -213,6 +218,8 @@ def processcommand(topic,data):
         processplay(data)
     elif topic=="playbackstate":
         processplaybackstate(data)
+    elif topic=="progress":
+        processprogress(data)
     else:
         mqttlogging("MQTT: Unknown command "+topic)
 
