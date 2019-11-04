@@ -231,8 +231,11 @@ def processplaybackstate(data):
         sendrpc("Player.Open", {"item": {"file": path}})
 
 def processprogress(data):
+    parts = data.partition('.')
+    data = parts[0]
+    millis = int(parts[2]) if parts[2] != '' else 0
     hours, minutes, seconds = [int(i) for i in data.split(":")]
-    time = hours * 3600 + minutes * 60 + seconds
+    time = hours * 3600 + minutes * 60 + seconds + millis / 1000.0
     player.seekTime(time)
 
 def processsendcomand(data):
