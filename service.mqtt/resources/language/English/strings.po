@@ -91,3 +91,7 @@ msgstr ""
 msgctxt "#30204"
 msgid "Ignore words (comma separated)"
 msgstr ""
+
+msgctxt "#30205"
+msgid "Publish progress with milliseconds"
+msgstr ""

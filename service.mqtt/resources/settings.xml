@@ -19,6 +19,7 @@
     <category label="30200">
         <setting label="30201" type="bool" id="mqttprogress" default="true"/>
         <setting label="30202" type="text" id="mqttinterval" default="20" visible="eq(-1,true)"/>
+        <setting label="30205" type="bool" id="mqttmillis" default="false"/>
         <setting label="30203" type="bool" id="mqttdetails" default="true"/>
         <setting label="30204" type="text" id="mqttignore" default="" visible="eq(-1,true)"/>
     </category>
