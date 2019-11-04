@@ -15,9 +15,10 @@ def getSetting(setting):
     return __addon__.getSetting(setting).strip()
 
 def load_settings():
-    global mqttprogress,mqttinterval,mqttdetails,mqttignore
+    global mqttprogress, mqttinterval, mqttmillis, mqttdetails, mqttignore
     mqttprogress = getSetting('mqttprogress').lower() == "true"
     mqttinterval = int(getSetting('mqttinterval'))
+    mqttmillis = getSetting('mqttmillis').lower() == "true"
     mqttdetails = getSetting('mqttdetails').lower() == "true"
     mqttignore = getSetting('mqttignore')
     if mqttignore:
@@ -88,7 +89,11 @@ def setplaystate(state,detail):
         publish("playbackstate",state,{"kodi_state":detail,"kodi_playerid":activeplayerid,"kodi_playertype":activeplayertype,"kodi_timestamp":int(time.time())})
 
 def convtime(ts):
-    return("%02d:%02d:%02d" % (ts/3600,(ts/60)%60,ts%60))
+    global mqttmillis
+    if mqttmillis:
+        return "%02d:%02d:%02d.%03d" % (ts/3600, (ts/60) % 60, ts % 60, ts % 1 * 1000)
+    else:
+        return "%02d:%02d:%02d" % (ts/3600, (ts/60) % 60, ts % 60)
 
 #
 # Publishes playback progress
