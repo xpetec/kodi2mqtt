@@ -1,4 +1,7 @@
-v0.14 -2019-10-31 - devtown/eschava
+v0.15 - 2019-11-04 - eschava
+  - option to publish/receive time with millis as a progress
+
+v0.14 - 2019-10-31 - devtown/eschava
   - added set volume
   - change playback position
   - play currently selected file
