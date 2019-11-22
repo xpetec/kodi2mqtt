@@ -15,10 +15,9 @@ def getSetting(setting):
     return __addon__.getSetting(setting).strip()
 
 def load_settings():
-    global mqttprogress, mqttinterval, mqttmillis, mqttdetails, mqttignore
+    global mqttprogress,mqttinterval,mqttdetails,mqttignore
     mqttprogress = getSetting('mqttprogress').lower() == "true"
     mqttinterval = int(getSetting('mqttinterval'))
-    mqttmillis = getSetting('mqttmillis').lower() == "true"
     mqttdetails = getSetting('mqttdetails').lower() == "true"
     mqttignore = getSetting('mqttignore')
     if mqttignore:
@@ -89,11 +88,7 @@ def setplaystate(state,detail):
         publish("playbackstate",state,{"kodi_state":detail,"kodi_playerid":activeplayerid,"kodi_playertype":activeplayertype,"kodi_timestamp":int(time.time())})
 
 def convtime(ts):
-    global mqttmillis
-    if mqttmillis:
-        return "%02d:%02d:%02d.%03d" % (ts/3600, (ts/60) % 60, ts % 60, ts % 1 * 1000)
-    else:
-        return "%02d:%02d:%02d" % (ts/3600, (ts/60) % 60, ts % 60)
+    return("%02d:%02d:%02d" % (ts/3600,(ts/60)%60,ts%60))
 
 #
 # Publishes playback progress
@@ -146,13 +141,13 @@ class MQTTMonitor(xbmc.Monitor):
         load_settings()
         startmqtt()
 
+    def onNotification(self,sender,method,value):
+        publish("notification/"+method,value,None)
+
 class MQTTPlayer(xbmc.Player):
 
     def onAVStarted(self):
         setplaystate(1, "started")
-
-    def onPlayBackStarted(self):
-        setplaystate(1,"started")
 
     def onPlayBackPaused(self):
         setplaystate(2,"paused")
@@ -231,11 +226,8 @@ def processplaybackstate(data):
         sendrpc("Player.Open", {"item": {"file": path}})
 
 def processprogress(data):
-    parts = data.partition('.')
-    data = parts[0]
-    millis = int(parts[2]) if parts[2] != '' else 0
     hours, minutes, seconds = [int(i) for i in data.split(":")]
-    time = hours * 3600 + minutes * 60 + seconds + millis / 1000.0
+    time = hours * 3600 + minutes * 60 + seconds
     player.seekTime(time)
 
 def processsendcomand(data):
