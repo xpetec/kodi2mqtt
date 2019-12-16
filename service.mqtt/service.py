@@ -302,6 +302,7 @@ def startmqtt():
         topic+="/"
     mqc.will_set(topic+"connected",0,qos=2,retain=True)
     sleep=2
+    maxS=4096
     for attempt in range(100):
         try:
             mqttlogging("MQTT: Connecting to MQTT broker at %s:%s" % (__addon__.getSetting("mqtthost"),__addon__.getSetting("mqttport")))
@@ -309,7 +310,7 @@ def startmqtt():
         except socket.error:
             mqttlogging("MQTT: Socket error raised, retry in %d seconds" % sleep)
             monitor.waitForAbort(sleep)
-            sleep=sleep*2
+            sleep = sleep*2 if sleep*2 <= maxS else maxS
         else:
             break
     else:
