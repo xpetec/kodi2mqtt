@@ -302,7 +302,7 @@ def startmqtt():
         topic+="/"
     mqc.will_set(topic+"connected",0,qos=2,retain=True)
     sleep=2
-    for attempt in range(10):
+    for attempt in range(100):
         try:
             mqttlogging("MQTT: Connecting to MQTT broker at %s:%s" % (__addon__.getSetting("mqtthost"),__addon__.getSetting("mqttport")))
             mqc.connect(__addon__.getSetting("mqtthost"),__addon__.getSetting("mqttport"),60)
