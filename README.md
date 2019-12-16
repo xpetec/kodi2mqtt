@@ -15,6 +15,12 @@ messages to MQTT topics.
 It's intended as a building block in heterogenous smart home environments where an MQTT message broker is used as the centralized message bus.
 See https://github.com/mqtt-smarthome for a rationale and architectural overview.
 
+Modifications from original owanger version:
+Bugfix: playing/resumed events now fire consistently
+Bugfix: Will try longer to reconnect
+Feature: All Kodi API notification events are published
+Feature: Volume control
+
 
 Dependencies
 ------------
