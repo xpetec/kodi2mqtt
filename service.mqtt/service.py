@@ -232,12 +232,12 @@ def processprogress(data):
     player.seekTime(time)
 
 def processsendcomand(data):
-	try:
-		cmd=json.loads(data)
-		res=xbmc.executeJSONRPC(json.dumps(cmd))
-		mqttlogging("MQTT: JSON-RPC call "+cmd['method']+" returned "+res)
-	except ValueError:
-		mqttlogging("MQTT: JSON-RPC call ValueError")
+    try:
+        cmd=json.loads(data)
+        res=xbmc.executeJSONRPC(json.dumps(cmd))
+        mqttlogging("MQTT: JSON-RPC call "+cmd['method']+" returned "+res)
+    except ValueError:
+        mqttlogging("MQTT: JSON-RPC call ValueError")
 
 def processcommand(topic,data):
     if topic=="notify":
@@ -249,7 +249,7 @@ def processcommand(topic,data):
     elif topic=="progress":
         processprogress(data)
     elif topic=="api":
-		processsendcomand(data)
+        processsendcomand(data)
     elif topic=="volume":
         processvolume(data)
     else:
@@ -285,7 +285,7 @@ def disconnecthandler(mqc,userdata,rc):
 #
 def startmqtt():
     global topic,mqc
-    mqc=mqtt.Client("P1")
+    mqc=mqtt.Client()
     mqc.on_message=msghandler
     mqc.on_connect=connecthandler
     mqc.on_disconnect=disconnecthandler
