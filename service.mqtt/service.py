@@ -39,7 +39,8 @@ def ignorelist(data,val):
 
 def mqttlogging(log):
     if  __addon__.getSetting("mqttdebug")=='true':
-        xbmc.log(log)
+        #xbmc.log(log)
+        xbmc.log(log,level=xbmc.LOGNOTICE)
 
 def sendrpc(method,params):
     res=xbmc.executeJSONRPC(json.dumps({"jsonrpc":"2.0","method":method,"params":params,"id":1}))
@@ -268,7 +269,7 @@ def msghandler(mqc,userdata,msg):
     except Exception as e:
         mqttlogging("MQTT: Error processing message %s: %s" % (type(e).__name__,e))
 
-def connecthandler(mqc,userdata,rc):
+def connecthandler(mqc,userdata,flags,rc):
     mqttlogging("MQTT: Connected to MQTT broker with rc=%d" % (rc))
     mqc.publish(topic+"connected",2,qos=1,retain=True)
     mqc.subscribe(topic+"command/#",qos=0)
@@ -284,7 +285,7 @@ def disconnecthandler(mqc,userdata,rc):
 #
 def startmqtt():
     global topic,mqc
-    mqc=mqtt.Client()
+    mqc=mqtt.Client("P1")
     mqc.on_message=msghandler
     mqc.on_connect=connecthandler
     mqc.on_disconnect=disconnecthandler
@@ -302,15 +303,14 @@ def startmqtt():
         topic+="/"
     mqc.will_set(topic+"connected",0,qos=2,retain=True)
     sleep=2
-    maxS=4096
-    for attempt in range(100):
+    for attempt in range(10):
         try:
             mqttlogging("MQTT: Connecting to MQTT broker at %s:%s" % (__addon__.getSetting("mqtthost"),__addon__.getSetting("mqttport")))
             mqc.connect(__addon__.getSetting("mqtthost"),__addon__.getSetting("mqttport"),60)
         except socket.error:
             mqttlogging("MQTT: Socket error raised, retry in %d seconds" % sleep)
             monitor.waitForAbort(sleep)
-            sleep = sleep*2 if sleep*2 <= maxS else maxS
+            sleep=sleep*2
         else:
             break
     else:
