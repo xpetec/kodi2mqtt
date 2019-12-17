@@ -82,6 +82,10 @@ The addon listens to the following topics (prefixed with the configured topic pr
   - "previous" to play the previous track
   - "playcurrent" to play the currently selected track
 * command/progress: A string having format hours:minutes:seconds. Changes position of currently played file
+* command/api: The full JSON_RPC API is accessible:
+  - {"method":"GUI.ShowNotification","jsonrpc":"2.0","params":{"title":"Test Title","message":"Test Message"},"playerid":"1"}
+
+
 
 
 See also
