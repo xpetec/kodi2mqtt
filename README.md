@@ -65,6 +65,8 @@ The addon listens to the following topics (prefixed with the configured topic pr
   a popup notification in Kodi
 * command/play: Either a simple string which is a filename or URL, or a JSON encoded object which  correspondents
   to the Player.Open() JSON_RPC call
+* command/volume: Set the volume to value or or a JSON encoded object which  correspondents
+  to the Application.SetVolume() JSON_RPC call
 * command/playbackstate: A simple string or numeric with the values:
   - "0" or "stop" to stop playback
   - "1" or "resume" or "play" to resume playback (when paused or stopped)
