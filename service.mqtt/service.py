@@ -355,6 +355,8 @@ if (__name__ == "__main__"):
     monitor=MQTTMonitor()
     if startmqtt():
         player=MQTTPlayer()
+        # Publish a reasonable initial state. Fancier would be to check actual current state.
+        setplaystate(0,"stopped")
         if mqttprogress:
             mqttlogging("MQTT: Progress Publishing enabled, interval is set to %d seconds" % mqttinterval)
             while not monitor.waitForAbort(mqttinterval):
