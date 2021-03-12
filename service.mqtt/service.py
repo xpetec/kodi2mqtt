@@ -1,4 +1,3 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 import xbmc,xbmcaddon
@@ -332,7 +331,7 @@ def startmqtt():
     for attempt in range(10):
         try:
             mqttlogging("MQTT: Connecting to MQTT broker at %s:%s" % (__addon__.getSetting("mqtthost"),__addon__.getSetting("mqttport")))
-            mqc.connect(__addon__.getSetting("mqtthost"),__addon__.getSetting("mqttport"),60)
+            mqc.connect(__addon__.getSetting("mqtthost"),int(__addon__.getSetting("mqttport")),60)
         except socket.error:
             mqttlogging("MQTT: Socket error raised, retry in %d seconds" % sleep)
             monitor.waitForAbort(sleep)
