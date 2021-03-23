@@ -18,16 +18,16 @@ See https://github.com/mqtt-smarthome for a rationale and architectural overview
 
 Modifications from original owanger version:
 * Bugfix: playing/resumed events now fire consistently
-* Bugfix: Updated Paho to 1.5 to fix reconnect crash (https://github.com/eclipse/paho.mqtt.python)
+* Bugfix: Updated Paho to 1.5.1 to fix reconnect crash (https://github.com/eclipse/paho.mqtt.python)
 * Feature: All Kodi API notification events are published
 * Feature: Volume control
-
+* Feature: Send title with each progress update, to handle radio streams which update their 'now playing'.
 
 Dependencies
 ------------
-* Kodi 14 Helix (or newer). Tested with 16.1. works also with 18.5 on Ubuntu
-* Eclipse Paho for Python - http://www.eclipse.org/paho/clients/python/
-  (used for MQTT communication)
+* Tested on Kodi 19 Matrix. Other versions may work, feel free to report any that do, I'll add them here.
+* Eclipse Paho for Python - http://www.eclipse.org/paho/clients/python/ (used for MQTT communication).
+  This is included with the plugin.
 
 
 Settings
@@ -58,11 +58,16 @@ The addon publishes on the following topics (prefixed with the configured topic 
   - "val" is the percentage of progress in playing back the current item
   - "kodi_time": the playback position in the current item
   - "kodi_totaltime": the total length of the current item
+* status/playertitle: The title of what's currently playing, updated at the same interval as progress.
+  For radio streams which tend to change their title, this can be used to show an up to date title.
 * status/title: a JSON-encoded object with the fields
   - "val": the title of the current playback item
   - "kodi_details": an object with further details about the current playback items. This is effectivly the result
     of a JSON-RPC call Player.GetItem with the properties "title", "streamdetails", "file", "thumbnail"
     and "fanart"
+* status/notification/<event>: Any Kodi notification event, with the event json data as body.
+  This is connected to xbmc::Monitor::onNotification, with method as last part of the topic, and data as the payload.
+* status/screensaver: '1'/'0' on screensaver activation/deactivation
 
 The addon listens to the following topics (prefixed with the configured topic prefix):
 
@@ -83,17 +88,17 @@ The addon listens to the following topics (prefixed with the configured topic pr
 * command/progress: A string having format hours:minutes:seconds. Changes position of currently played file
 * command/api: The full JSON_RPC API is accessible:
   - {"method":"GUI.ShowNotification","jsonrpc":"2.0","params":{"title":"Test Title","message":"Test Message"},"playerid":"1"}
-
+* command/cecstate: Expects value '1' or 'activate', might wake up tv with CEC (workaround by muracz)
 
 
 
 See also
 --------
 - kodi.tv forum thread: http://forum.kodi.tv/showthread.php?tid=222109
-- JSON-RPC API v6 in Kodi: http://kodi.wiki/view/JSON-RPC_API/v6
+- JSON-RPC API in Kodi: http://kodi.wiki/view/JSON-RPC_API
 - Project overview: https://github.com/mqtt-smarthome
-  
-  
+
+
 Changelog
 ---------
 Please see [service.mqtt/changelog.txt](service.mqtt/changelog.txt) for the change log

@@ -1,4 +1,8 @@
-v0.20 - 2020-05-2020
+v0.21 - 2021-03-22
+  - Convert to work with Kodi 19 Matrix (just some minor changes were needed)
+  - Update MQTT client Paho to latest: 1.5.1 
+
+v0.20 - 2020-05-17
   - Fork from richcrabtree
   - Merged rubikscuber changes (Fix for netflixaddon) 
   - Merged muracz changes (Simple screensaver notification, TV wake-up workaround/cecstate command)
