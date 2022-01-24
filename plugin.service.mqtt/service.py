@@ -39,8 +39,7 @@ def ignorelist(data,val):
 
 def mqttlogging(log):
     if  __addon__.getSetting("mqttdebug")=='true':
-        #xbmc.log(log)
-        xbmc.log(log,level=xbmc.LOGNOTICE)
+        xbmc.log(log,level=xbmc.LOGINFO)
 
 def sendrpc(method,params):
     res=xbmc.executeJSONRPC(json.dumps({"jsonrpc":"2.0","method":method,"params":params,"id":1}))
@@ -260,6 +259,7 @@ def processcecstate(data):
 		os.system('kodi-send --action=""')
 
 def processcommand(topic,data):
+    mqttlogging("MQTT: Received command %s with data %s" % (topic, data))
     if topic=="notify":
         processnotify(data)
     elif topic=="play":
@@ -287,7 +287,7 @@ def msghandler(mqc,userdata,msg):
             return
         mytopic=msg.topic[len(topic):]
         if mytopic.startswith("command/"):
-            processcommand(mytopic[8:],msg.payload)
+            processcommand(mytopic[8:],msg.payload.decode("utf-8"))
     except Exception as e:
         mqttlogging("MQTT: Error processing message %s: %s" % (type(e).__name__,e))
 

@@ -1,3 +1,7 @@
+v0.22 - 2022-01-24
+  - Fixed some things to follow conventions
+  - Tested on 19.4 Matrix
+
 v0.21 - 2021-03-22
   - Convert to work with Kodi 19 Matrix (just some minor changes were needed)
   - Update MQTT client Paho to latest: 1.5.1 
