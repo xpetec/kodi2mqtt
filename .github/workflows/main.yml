@@ -16,7 +16,7 @@ jobs:
       - uses: vimtor/action-zip@v1
         with:
           files: plugin.service.mqtt 
-          dest: plugin.service.mqtt.zip
+          dest: result.zip
       - uses: actions/upload-artifact@v1
         with:
           name: my-artifact
