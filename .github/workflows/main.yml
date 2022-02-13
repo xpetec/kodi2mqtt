@@ -17,3 +17,7 @@ jobs:
         with:
           files: plugin.service.mqtt 
           dest: plugin.service.mqtt.zip
+      - uses: actions/upload-artifact@v1
+        with:
+          name: my-artifact
+          path: ${{ github.workspace }}/result.zip
